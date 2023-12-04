@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function List({ header, items }) {
+function List(Props) {
+  const { header, items } = Props;
   const ref = useRef();
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -36,6 +37,7 @@ function List({ header, items }) {
             </li>
           );
         })}
+        <li key='children'> {Props.children}</li>
       </ul>
     </>
   );

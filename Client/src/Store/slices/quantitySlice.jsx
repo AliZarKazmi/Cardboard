@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const quantitySlice = createSlice({
     name: 'quantity',
-    initialState: 1,
+    initialState: 500,
     reducers:{
         setQuantity(state, action){
             return state = action.payload;

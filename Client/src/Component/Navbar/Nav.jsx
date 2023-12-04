@@ -1,9 +1,14 @@
 import List from "./Dropdown";
 import { Link } from "react-router-dom";
 import { selectCartItems } from "../../Pages/ShoppingCart/CartSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { selectLogin } from "../../Pages/LogInPage/LoginSlice";
+import { setLogin } from "../../Pages/LogInPage/LoginSlice";
 function Nav() {
+  const login = useSelector(selectLogin);
   const cart = useSelector(selectCartItems);
+  const dispatch = useDispatch();
   return (
     <>
       <header>
@@ -30,8 +35,8 @@ function Nav() {
                     header="Products"
                     items={[
                       { url: "/Cardboards", title: "CardBoard" },
-                      { url: "/Reel", title: "Reels" },
-                      { url: "/Roll", title: "Rolls" },
+                      { url: "/Reels", title: "Reels" },
+                      { url: "/Rolls", title: "Rolls" },
                       { url: "/RequestQute", title: "Request-Qute" },
                     ]}
                   />
@@ -55,23 +60,7 @@ function Nav() {
                   />
                 </li>
               </ul>
-              <form className="user-area">
-                <div className="search-area">
-                  <button className="btn btn-search" type="submit">
-                    <i className="fa fa-search"></i>
-                  </button>
-                  <div className="search-box d-none">
-                    <a className="close-btn">
-                      <i className="fa-solid fa-circle-xmark"></i>
-                    </a>
-                    <input
-                      className="form-control me-2"
-                      type="search"
-                      placeholder="Search"
-                      aria-label="Search"
-                    />
-                  </div>
-                </div>
+              <div className="user-area">
                 <div className="cart-btn">
                   <Link to="/ShippingCart">
                     <img src="/img/cart.svg" />
@@ -79,9 +68,25 @@ function Nav() {
                   </Link>
                 </div>
                 <div className="sign-in">
-                  <a href="#">Sign In</a>
+                  {login ? (
+                    <List
+                      header="Profile"
+                      items={[{ url: "/Profile", title: "Profile" }]}
+                    >
+                      <a className="dropdown-item"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          dispatch(setLogin(false));
+                        }}
+                      >
+                        Logout
+                      </a>
+                    </List>
+                  ) : (
+                    <Link to="/SignIn">Sign In</Link>
+                  )}
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </nav>

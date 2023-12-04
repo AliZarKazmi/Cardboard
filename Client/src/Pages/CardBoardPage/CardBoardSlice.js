@@ -1,5 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getProducts = createAsyncThunk(
   "CardBoard/getProducts",
@@ -75,7 +74,11 @@ const CardBoard = createSlice({
       state.Config.dimension.width = action.payload;
     },
     setQuantity(state, action) {
-      state.Config.quantity = Number.parseInt(action.payload);
+      if (action.payload > 0) {
+        state.Config.quantity = Number.parseInt(action.payload);
+      } else {
+        state.Config.quantity = 0;
+      }
     },
     setProduct(state, action) {
       state.Config.item = action.payload;
@@ -86,7 +89,7 @@ const CardBoard = createSlice({
     },
     resetConfig(state, action) {
       state.Config = {
-        item: {},
+        item: "",
         material: "",
         thickness: "",
         printedSides: "",

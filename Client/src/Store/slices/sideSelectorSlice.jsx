@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const sideSelectorSlice = createSlice({
     name: 'sideSelector',
-    initialState: '',
+    initialState: 'false',
     reducers:{
         changeSide(state, action){
             return state = action.payload;

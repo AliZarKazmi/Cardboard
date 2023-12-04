@@ -18,13 +18,13 @@ const Quantity = () => {
   return (
         <>
         <div className="mt-2 d-flex flex-column">
-            <div className=" d-flex justify-content-around align-items-center py-3 px-1 text-white fw-bold rounded-top-2" style={{background: '#F7744F'}}>
+            <div className=" d-flex justify-content-around align-items-center py-3 px-1 text-white fw-bold rounded-top-2" style={{ background: '#15807a' }}>
                 <span><ImSortNumbericDesc /></span>
                 <span>Select Quantity</span>
             </div>
             <div className="d-flex justify-content-around align-content-center flex-column gap-2 p-2 bg-white">
                 <label htmlFor="quantity" className=" fs-6">Enter box quantity</label>
-                <input type="number" placeholder="Enter quantity here..." id='quantity' className=" p-1 fs-6 fw-semibold" onChange={(e) =>setInpVal(e.target.value) } />
+                <input type="number" step='500' placeholder="Enter quantity here..." id='quantity' className=" p-1 fs-6 fw-semibold" onChange={(e) =>setInpVal(e.target.value) } />
             </div>
         </div>
         </>

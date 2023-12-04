@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { setSize } from '../../Store/slices/sizeSlice';
 
 
-const Size = ({ products }) => {
+const Size = ({ products, boxType }) => {
 
     const dispatch = useDispatch();
 
@@ -44,15 +44,15 @@ const Size = ({ products }) => {
         <>
             <div className="d-flex">
                 <div className="card mt-2" style={{ 'width': '18rem' }}>
-                    <div className="card-header d-flex flex-row justify-content-between align-items-center" style={{ color: '#F7744F' }}>
-                        <h6>Select stock size</h6>
-                        <BiSolidHelpCircle className=' fs-5' />
+                    <div className="card-header d-flex flex-row justify-content-between align-items-center" style={{ background: '#15807a' }}>
+                        <h6 className=' fw-semibold text-white'>Select stock size</h6>
+                        <BiSolidHelpCircle className=' fs-5 text-white' />
                     </div>
                     <ul className="sizeCardList list-group list-group-flush overflow-auto">
-                        {products.map((p) => {
-                            if (p.cardboardname === 'Mailer Box') {
+                        {products.map((p,index) => {
+                            if (p.cardboardname === boxType) {
                                 return (
-                                    <li key={p.id} className="list-group-item" onClick={() => dimensionsSetter(p.length, p.width, p.depth)}>
+                                    <li key={index} className="list-group-item" onClick={() => dimensionsSetter(p.length, p.width, p.depth)}>
                                         {`${p.length}" x ${p.width}" x ${p.depth}"`}
                                     </li>
                                 )
@@ -66,8 +66,8 @@ const Size = ({ products }) => {
 
             <div className="d-flex">
                 <div className="card mt-2" style={{ 'width': '18rem' }}>
-                    <div className="card-header d-flex flex-row justify-content-between align-items-center" style={{ color: '#F7744F' }}>
-                        <h6>Create custom size</h6>
+                    <div className="card-header d-flex flex-row justify-content-between align-items-center" style={{ background: '#15807a' }}>
+                        <h6 className=' fw-semibold text-white'>Create custom size</h6>
                     </div>
 
                     <div className="d-flex align-items-center flex-column pt-3 ">

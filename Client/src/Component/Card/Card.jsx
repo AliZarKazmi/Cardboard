@@ -5,7 +5,9 @@ function Card({ card }) {
     <>
       <div className="col-lg-3 col-container">
         <div className="card">
-          <span className="bage">{card.quantity> 0 ?'In Stock':'Out of Stock' }</span>
+          <span className="bage">
+            {card.quantity > 0 ? "In Stock" : "Out of Stock"}
+          </span>
           <div className="card-body">
             <img className="img-fluid" src={card.img} />
           </div>

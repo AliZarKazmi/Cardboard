@@ -1,11 +1,12 @@
 import { useAnimations, useGLTF, useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import {React, useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux';
+import {setBoxScaleValue} from '../../Store/slices/boxScaleValue';
+import { useDispatch, useSelector } from 'react-redux';
 
 import * as THREE from 'three';
     
-function ShippingBox(props) {
+function BoxModel(props) {
 
     const group = useRef();
 
@@ -45,7 +46,7 @@ function ShippingBox(props) {
         let wid = parseFloat(dimenstionsValue.width);
         let dep = parseFloat(dimenstionsValue.depth);
         
-        return len || wid || dep ?  [wid/10, dep/10, len/10] :  [1.0, 1.0, 1.0]
+        return len || wid || dep ?  [len/10, dep/10, wid/10] :  [1.0, 1.0, 1.0]
 
     }
 
@@ -131,16 +132,43 @@ function ShippingBox(props) {
 
     },[sideImages, materialName])
 
+    const boxRef = useRef();
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+      const vec = boxRef.current.scale;
+      dispatch(setBoxScaleValue([vec.x, vec.y, vec.z]))
+    }, [dimenstionsValue])
+    
+
     /////// end ///////
 
       const { nodes, materials, animations } = useGLTF('/ShippingBoxStated.glb')
       const { actions, names } = useAnimations(animations, group)
 
+      useEffect(() => {
+        const calculateBoundingBoxCenter = () => {
+          const boundingBox = new THREE.Box3();
+          group.current.traverse((obj) => {
+            if (obj.geometry) {
+              obj.geometry.computeBoundingBox();
+              boundingBox.expandByObject(obj);
+            }
+          });
+    
+          const boundingBoxCenter = new THREE.Vector3();
+          boundingBox.getCenter(boundingBoxCenter);
+    
+          document.dispatchEvent(new CustomEvent('boundingBoxCenter', { detail: boundingBoxCenter }));
+        };
+    
+        calculateBoundingBoxCenter();
+      }, []);
 
       return (
         <group ref={group} {...props} dispose={null} >
           <group name="Scene">
-            <group name="Armature" position={[-0.011, -1, -0.02]} scale={boxDimensionMaker()}>
+            <group name="Armature" ref={boxRef} position={[-0.011, -1, -0.02]} scale={boxDimensionMaker()}>
 
               <primitive object={nodes.Body} />
 
@@ -192,14 +220,5 @@ function ShippingBox(props) {
         </group>
       )
     }
-
-
-function BoxModel() {
-  return (
-    <>
-      <ShippingBox />
-    </>
-  )
-}
 
 export default BoxModel

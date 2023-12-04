@@ -39,6 +39,62 @@ const cartSlice = createSlice({
         state.items.push(action.payload);
       }
     },
+    addRollToCart(state, action) {
+      const duplicate = state.items.some(
+        (item) => item.id === action.payload.id
+      );
+      const sameConfig = state.items.some(
+        (item) =>
+          item.size === action.payload.size && item.name === action.payload.name
+      );
+
+      if (!sameConfig && !duplicate) {
+        state.items.push(action.payload);
+      } else if (duplicate && sameConfig) {
+        state.items.map((item) => {
+          if (item.id === action.payload.id) {
+            return {
+              ...item,
+              quantity: (item.quantity += action.payload.quantity),
+              price: (item.price +=
+                item.pricePerPiece * action.payload.quantity),
+            };
+          }
+        });
+      } else if (duplicate && !sameConfig) {
+        action.payload.id = Date.now();
+        state.items.push(action.payload);
+      }
+    },
+    addReelToCart(state, action) {
+      const duplicate = state.items.some(
+        (item) => item.id === action.payload.id
+      );
+      const sameConfig = state.items.some(
+        (item) =>
+          item.size === action.payload.size &&
+          item.name === action.payload.name &&
+          item.weight.weight_type === action.payload.weight.weight_type
+      );
+
+      if (!sameConfig && !duplicate) {
+        state.items.push(action.payload);
+      } else if (duplicate && sameConfig) {
+        state.items.map((item) => {
+          if (item.id === action.payload.id) {
+            return {
+              ...item,
+              quantity: (item.quantity += action.payload.quantity),
+              price: (item.price +=
+                item.pricePerPiece * action.payload.quantity),
+            };
+          }
+        });
+      } else if (duplicate && !sameConfig) {
+        action.payload.id = Date.now();
+        state.items.push(action.payload);
+      }
+    },
     incrementItemQuantity(state, action) {
       state.items.map((item) => {
         if (item.id === action.payload) {
@@ -86,6 +142,8 @@ export const {
   decrementItemQuantity,
   removeItem,
   setTotalPrice,
-  emptyCart
+  emptyCart,
+  addRollToCart,
+  addReelToCart
 } = cartSlice.actions;
 export default cartSlice.reducer;

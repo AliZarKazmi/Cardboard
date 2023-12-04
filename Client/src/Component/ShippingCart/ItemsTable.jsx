@@ -3,7 +3,7 @@ import { selectCartItems } from "../../Pages/ShoppingCart/CartSlice";
 import { useSelector } from "react-redux";
 
 const ItemsTable = () => {
-  const Cart = useSelector(selectCartItems);
+  const Cart = useSelector(selectCartItems); 
   return (
     <>
       <h5>Items in Cart</h5>
@@ -12,7 +12,7 @@ const ItemsTable = () => {
         duplicate them
       </p>
 
-      <div className="table-responsive">
+      <div className="table-responsive" style={{ borderRadius: 10 }}>
         <table className="table">
           <tbody>
             {Cart.map((data, index) => (

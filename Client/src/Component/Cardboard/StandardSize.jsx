@@ -1,10 +1,10 @@
-import { useDispatch } from "react-redux";
-import { setDimension } from "../../Pages/CardBoardPage/CardBoardSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectConfig, setDimension } from "../../Pages/CardBoardPage/CardBoardSlice";
 
 
 const StandardSize = ({ item }) => {
   const dispatch = useDispatch();
-
+  const config = useSelector(selectConfig);
   return (
     <>
       <div className="row align-items-center">
@@ -15,12 +15,20 @@ const StandardSize = ({ item }) => {
           <div className="form-group">
             <select
               className="form-select"
-              aria-label="Default select example" 
+            
+              value={JSON.stringify(config.dimension)}
               onChange={(e) => {
                 dispatch(setDimension(e.target.value));
               }}
             >
-              <option defaultValue={""} hidden>
+              <option
+                value={JSON.stringify({
+                  length: '',
+                  width: '',
+                  depth: ''
+                })}
+                hidden
+              >
                 Select A Option
               </option>
 

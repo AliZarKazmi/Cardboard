@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const materialSlice = createSlice({
     name: 'material',
-    initialState: '',
+    initialState: 'Kraft',
     reducers:{
         changeMaterial(state, action){
             return state = action.payload;

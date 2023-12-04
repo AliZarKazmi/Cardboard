@@ -1,7 +1,7 @@
 function ImgGrid({ images, start }) {
   return (
     <>
-      <div  className="inner-grid">
+      <div className="inner-grid" key={start}>
         {images.map((image, index) => {
           return (
             <>

@@ -13,6 +13,7 @@ import { setSelectedObjType } from '../../Store/slices/objectType';
 import { setCanvasImage } from '../../Store/slices/canvasImage';
 import { setDeletCanvasObj } from '../../Store/slices/deleteCanvasObj';
 import { setApplyDesign } from '../../Store/slices/applyDesign';
+import { setAlertData } from '../../Store/slices/alertSlice';
 
 
 
@@ -99,7 +100,11 @@ const Design = () => {
     }
 
     const handleApply = () => {
-        dispatch(setApplyDesign(true));
+        selectedSide !== 'false' ? dispatch(setApplyDesign(true)) : dispatch(setAlertData({
+            state: true,
+            heading: 'Select Side',
+            content: 'Please select a side from select side dropdown menu.'
+        }));
     }
 
     // loadImage function to load image in state
@@ -117,7 +122,7 @@ const Design = () => {
     return (
         <>
             <div className=' mt-2 d-flex justify-content-center flex-column'>
-                <ul className=' d-flex justify-content-around align-items-center gap-2 text-white fs-6 fw-bold py-3 px-0 mb-0 rounded-top' style={{background: '#F7744F'}}>
+                <ul className=' d-flex justify-content-around align-items-center gap-2 text-white fs-6 fw-bold py-3 px-0 mb-0 rounded-top' style={{ background: '#15807a' }}>
                     <li className=' d-flex justify-content-between align-items-baseline gap-1' role='button' onClick={() => setOptions('color')}>
                         <span className=' fs-5'><HiOutlineColorSwatch /></span>
                         <span>Side Color</span>

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from "react-router-dom";
 import { addToCart, setTotalPrice } from "../../Pages/ShoppingCart/CartSlice";
+import { setSize } from "../../Store/slices/sizeSlice";
 
-const ItemCard = ({ products, materials }) => {
+const ItemCard = ({ boxType, products, materials }) => {
+
+    const dispatch = useDispatch();
 
     const materialName = useSelector((state) => {
         return state.materialChanged
@@ -13,6 +15,7 @@ const ItemCard = ({ products, materials }) => {
         return state.quantityChanged
     });
 
+
     const dimenstionsValue = useSelector((state) => {
         return state.sizeChanged
     });
@@ -21,23 +24,24 @@ const ItemCard = ({ products, materials }) => {
         return state.imagesConainer
     });
 
+    // for new designed boxes
+    const canvasExported = useSelector((state) => { 
+        return state.canvasAsImg;
+      })
+    ////////////////////////////
+
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
         products?.map((p) => {
-            p?.cardboardname === 'Mailer Box' && setProduct(p);
+            p?.cardboardname === boxType && setProduct(p);
         })
     }, [products])
 
     const [material, setMaterial] = useState(null);
-
-    useEffect(() => {
-        setMaterial(materials?.find((m) => m.materailName === materialName))
-    }, [materialName])
-
     const [price, setPrice] = useState(0);
 
-    useEffect(() => {
+    const priceCalculator = () => {
         if (dimenstionsValue.length && dimenstionsValue.width && quantityValue) {
             const pricePerSheet =
                 (((dimenstionsValue.length * dimenstionsValue.width * 210) / 15500) *
@@ -52,23 +56,39 @@ const ItemCard = ({ products, materials }) => {
             );
             setPrice(pricePerPiece);
         }
+    }
+
+    useEffect(()=>{
+        priceCalculator()
+    })
+
+    useEffect(() => {
+        setMaterial(materials?.find((m) => m.materailName === materialName))
+    }, [materials])
+
+    useEffect(() => {
+        setMaterial(materials?.find((m) => m.materailName === materialName))
+    }, [materialName])
+
+    useEffect(() => {
+        priceCalculator();
     }, [dimenstionsValue, materialName, quantityValue]);
 
     const [orderState, setOrderState] = useState();
-    const dispatch = useDispatch()
 
     const handleCheckOut = () => {
         setOrderState(
             {
                 id: Date.now(),
+                ThreeD: true,
                 name: product.cardboardname,
                 img: '/img/cardboard_header_image.png',
                 material: materialName,
                 quantity: Number(quantityValue),
                 pricePerPiece: price,
                 dimension: dimenstionsValue,
-                price: Number(price*quantityValue),
-                sides_design: sideImages,
+                price: Number(price * quantityValue),
+                sides_design: boxType !== "Mailer Box" ? canvasExported : sideImages,
                 printedSides: 4,
                 thickness: 3,
             }
@@ -81,18 +101,19 @@ const ItemCard = ({ products, materials }) => {
     }
 
     useEffect(() => {
-        if(orderState){
+        if (orderState) {
             dispatch(addToCart(orderState));
             dispatch(setTotalPrice());
         }
     }, [orderState])
     
+
     return (
         <>
             <div className=" d-flex justify-content-between align-items-center">
                 <div className="card mt-2 shadow">
                     <div className="cardHead card-body">
-                        <h5 className="card-title" style={{ color: '#F7744F' }}>{product?.cardboardname}</h5>
+                        <h5 className="card-title" style={{ color: '#15807a' }}>{product?.cardboardname}</h5>
                         <div className=" paraDiv">
                             <p className="card-text text-secondary">{product?.description}</p>
                         </div>
@@ -120,13 +141,13 @@ const ItemCard = ({ products, materials }) => {
                             style={{ backgroundColor: "#F3F3F3" }}
                         >
                             <span className=" text-secondary">Subtotal</span>
-                            <span style={{ color: "#F7744F" }}>Rs. {price * quantityValue}</span>
+                            <span style={{ color: '#15807a' }}>Rs. {price * quantityValue}</span>
                         </li>
                     </ul>
                     <div className="card-body p-0 m-0 rounded-bottom" style={{ height: 4 + "rem" }}>
                         <button type="button"
                             className="btn btn-lg h-100 w-100 rounded-bottom text-white"
-                            style={{ borderRadius: 0 + 'px', background: "#F7744F", border: '2px solid #F7744F' }}
+                            style={{ borderRadius: 0 + 'px', background: "#15807a", border: '2px solid #15807a' }}
                             onClick={handleCheckOut}
                         >
                             Add to Cart

@@ -134,7 +134,9 @@ header .user-area .sign-in a {
   color: #8e8e8e;
   text-decoration: none;
 }
-
+header .user-area .sign-in ul {
+  margin-left: -16px;
+}
 .home-banner .inner-wraper {
   background: #fcdad0;
   border-radius: 0px 0px 200px 0px;
@@ -475,7 +477,10 @@ footer .footer-bottom p {
   background-image: url(../img/circal.svg) !important;
   background-size: 10px;
 }
-
+.link {
+  color: white;
+  text-decoration: none;
+}
 .form-check-input {
   border: 1.9263px solid #8e8e8e !important;
   padding: 3px;
@@ -767,7 +772,6 @@ footer .footer-bottom p {
   background-color: #ffffff;
   border: 1px solid #8e8e8e;
   border-radius: 10px;
-  min-height: 50px;
 }
 
 .product-slider img {
@@ -988,7 +992,9 @@ footer .footer-bottom p {
   mix-blend-mode: darken;
   aspect-ratio: 1;
 }
-
+input[name="quantity"] {
+  border: none;
+}
 .checkout-page .form-control {
   border: 0;
   border-bottom: 0.978594px solid #8e8e8e;
@@ -1148,10 +1154,9 @@ footer .footer-bottom p {
   grid-area: 2/1/3/3;
 }
 
-@media screen and (max-width:991px) {
+@media screen and (max-width: 991px) {
   .grid {
-
-    grid-template-columns: auto
+    grid-template-columns: auto;
   }
 
   .inner-grid {
@@ -1183,7 +1188,7 @@ footer .footer-bottom p {
   color: #fff;
 }
 
-button[aria-expanded="true"]~ul {
+button[aria-expanded="true"] ~ ul {
   display: block;
 }
 
